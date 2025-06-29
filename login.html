@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Autentificare Admin</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Autentificare Admin</h2>
+    <div id="step1">
+      <label>Număr telefon:</label>
+      <input type="text" id="phone" placeholder="Ex: 3792308586" />
+      <button onclick="sendCode()">Trimite cod SMS</button>
+    </div>
+
+    <div id="step2" style="display:none;">
+      <label>Cod primit:</label>
+      <input type="text" id="code" placeholder="Ex: 123456" />
+      <button onclick="verifyCode()">Verifică cod</button>
+    </div>
+
+    <p id="msg" style="color: red;"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
