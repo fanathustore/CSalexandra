@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>fanathustore - Book Appointment</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #faf7f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  header {
+    background: #b95ca3;
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+  }
+  header img.app-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    margin-right: 1rem;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    background: #f6e1f5;
+  }
+  header h1 {
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0;
+  }
+  main {
+    flex-grow: 1;
+    padding: 1.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  section.app-info {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .app-info p {
+    margin: 0.3rem 0;
+    color: #555;
+  }
+  .rating {
+    color: #ffc107;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .rating span.star {
+    font-size: 1.3rem;
+    margin-left: 0.1rem;
+  }
+  section.screenshots {
+    margin-bottom: 2rem;
+  }
+  .carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    background: white;
+  }
+  .carousel-images {
+    display: flex;
+    transition: transform 0.3s ease;
+  }
+  .carousel-images img {
+    width: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+    height: 300px;
+  }
+  .carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+  }
+  button.carousel-btn {
+    background: rgba(255 255 255 / 0.85);
+    border: none;
+    font-size: 2rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+    color: #b95ca3;
+    font-weight: 700;
+    user-select: none;
+    transition: background 0.2s ease;
+  }
+  button.carousel-btn:hover {
+    background: #b95ca3;
+    color: white;
+  }
+  section.booking {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgb(0 0 0 / 0.12);
+  }
+  section.booking h2 {
+    color: #b95ca3;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #555;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  input[type="date"],
+  input[type="time"] {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s ease;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="tel"]:focus,
+  select:focus,
+  input[type="date"]:focus,
+  input[type="time"]:focus {
+    outline: none;
+    border-color: #b95ca3;
+  }
+  button[type="submit"] {
+    background: #b95ca3;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  button[type="submit"]:hover {
+    background: #9d4a87;
+  }
+  
+  .login-form {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  .confirmation {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background: #d4edda;
+    color: #155724;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+  }
+  .confirmation.error {
+    background: #ffcccc;
+    color: #721c24;
+  }
+  @media (max-width: 600px) {
+    main {
+      padding: 1rem;
+      max-width: 100%;
+    }
+    .carousel-images img {
+      height: 220px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://i.imgur.com/zRvNUbS.png" alt="fanathustore Icon" class="app-icon" />
+  <h1>fanathustore</h1>
+  <div style="margin-left: auto; display: flex; gap: 1rem;">
+    <a href="fanathustore-app.apk" download style="color: white; text-decoration: none;">Download</a>
+    <a href="admin-login.html" style="color: white; text-decoration: none;">Admin</a>
+  </div>
+</header>
+
+<main>
+  <section class="app-info" aria-label="App Information">
+    <p><strong>Version:</strong> 1.0.0</p>
+    <p><strong>Developer:</strong> fanathustore</p>
+    <p><strong>Website:</strong> <a href="https://www.fanathustore.com" target="_blank">fanathustore.com</a></p>
+    <p><strong>Download:</strong>
+      <a href="fanathustore-app.apk" download style="color:#b95ca3;font-weight:600">APK File</a>
+    </p>
+>>>>>>> REPL
+
+2. Update the header title to match your brand:
+<<<<<<< SEARCH
+  <h1>Alexandra Centro Estetico</h1>
+=======
+  <h1>fanathustore</h1>
+    <p class="rating" aria-label="Rating">0.00 <span class="star" aria-hidden="true">★</span></p>
+    <p>0 reviews</p>
+    <p>50+ Downloads</p>
+    <p><strong>Free</strong></p>
+    <p>Download our Official App (click APK link above) and book appointments directly from your phone.</p>
+    <p>For hosting instructions visit <a href="https://github.com/fanathustore/beauty-app" target="_blank">GitHub repository</a></p>
+  </section>
+
+  <section class="screenshots" aria-label="App Screenshots">
+    <div class="carousel" aria-live="polite">
+      <div class="carousel-images" id="carouselImages">
+        <img src="https://via.placeholder.com/450x300?text=Screenshot+1" alt="Screenshot of app screen 1" />
+        <img src="https://via.placeholder.com/450x300?text=Screenshot+2" alt="Screenshot of app screen 2" />
+        <img src="https://via.placeholder.com/450x300?text=Screenshot+3" alt="Screenshot of app screen 3" />
+        <img src="https://via.placeholder.com/450x300?text=Screenshot+4" alt="Screenshot of app screen 4" />
+        <img src="https://via.placeholder.com/450x300?text=Screenshot+5" alt="Screenshot of app screen 5" />
+      </div>
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="prevBtn" aria-label="Previous Screenshot">&#10094;</button>
+        <button class="carousel-btn" id="nextBtn" aria-label="Next Screenshot">&#10095;</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="booking" aria-label="Appointment Booking Form">
+    <h2>Book your Appointment</h2>
+    <form id="bookingForm" novalidate>
+      <label for="name">Full Name*</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required minlength="2" />
+
+      <label for="email">Email*</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+      <label for="phone">Phone Number*</label>
+      <input type="tel" id="phone" name="phone" placeholder="+1 234 567 890" required pattern="^\+?[\d\s\-]{7,15}$" />
+
+      <label for="service">Select Service*</label>
+      <select id="service" name="service" required>
+        <option value="" disabled selected>Select a service</option>
+        <option value="facial">Facial Treatment</option>
+        <option value="massage">Massage Therapy</option>
+        <option value="manicure">Manicure</option>
+        <option value="pedicure">Pedicure</option>
+        <option value="waxing">Waxing</option>
+      </select>
+
+      <label for="date">Select Date*</label>
+      <input type="date" id="date" name="date" required min="" />
+
+      <label for="time">Select Time*</label>
+      <input type="time" id="time" name="time" required min="09:00" max="18:00" />
+
+      <button type="submit">Book Appointment</button>
+    </form>
+    <div class="confirmation" id="confirmationMessage" role="alert" aria-live="assertive"></div>
+
+<script>
+// Simple admin authentication check
+const checkAuth = () => {
+  const authToken = localStorage.getItem('adminAuthToken');
+  if (!authToken || authToken !== 'YOUR_SECURE_TOKEN_HERE') {
+    window.location.href = 'admin-login.html';
+  }
+}
+checkAuth();
+  </section>
+</main>
+
+<script>
+  // Update min date on load for date picker to today
+  const dateInput = document.getElementById('date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+
+  // Carousel functionality
+  const carouselImages = document.getElementById('carouselImages');
+  const imagesCount = carouselImages.children.length;
+  let currentIndex = 0;
+
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  function updateCarousel() {
+    const offset = -currentIndex * 100;
+    carouselImages.style.transform = `translateX(${offset}%)`;
+  }
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + imagesCount) % imagesCount;
+    updateCarousel();
+  });
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % imagesCount;
+    updateCarousel();
+  });
+
+  // Booking form submission and validation
+  const bookingForm = document.getElementById('bookingForm');
+  const confirmationMessage = document.getElementById('confirmationMessage');
+
+  bookingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    confirmationMessage.style.display = 'none';
+    if (!bookingForm.checkValidity()) {
+      bookingForm.reportValidity();
+      return;
+    }
+    // Basic validation passed - show confirmation
+    const name = bookingForm.name.value.trim();
+    const service = bookingForm.service.value;
+    const date = bookingForm.date.value;
+    const time = bookingForm.time.value;
+
+    // Check for existing appointments
+    const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+    const slotBooked = appointments.some(appt => 
+      appt.date === date && appt.time === time
+    );
+    
+    if (slotBooked) {
+      confirmationMessage.style.background = '#ffcccc';
+      confirmationMessage.textContent = 
+        `Sorry, the time slot ${time} on ${date} is already booked. Please choose another time.`;
+    } else {
+      appointments.push({name, email: bookingForm.email.value, phone: bookingForm.phone.value, service, date, time});
+      localStorage.setItem('appointments', JSON.stringify(appointments));
+      confirmationMessage.style.background = '#d4edda';
+      confirmationMessage.textContent =
+        `Thank you, ${name}! Your ${service} appointment on ${date} at ${time} is confirmed.`;
+    }
+    confirmationMessage.style.display = 'block';
+
+    bookingForm.reset();
+    // Reset date min again after reset
+    dateInput.min = today;
+  });
+</script>
+
+</body>
+</html>
